@@ -23,7 +23,6 @@ robot.once("disconnect", () => {
   console.log("Вышел.");
 });
 
-
 robot.on('message', (msg) => { // Реагирование на сообщения
   if (msg.author.username != robot.user.username && msg.author.discriminator != robot.user.discriminator) {
     var comm = msg.content.trim() + " ";
@@ -145,3 +144,22 @@ function play(guild, song) {
 
 
 robot.login(token); // Авторизация бота
+
+robot.on('raw', event => {
+  if (event.t === 'MESSAGE_REACTION_ADD') {
+    if (event.d.message_id === '797728394376118282')
+    {
+      if (event.d.emoji.name === "✍️") {
+        if (event.d.member.roles.find(r => r === '797545836165988393')) {
+          return;
+        }
+        else {
+          robot.channels.cache.get(event.d.channel_id).messages.fetch(event.d.message_id)
+          .then(msg => { // только вики помогал нахуй, ибо все гайды 19 года блять (как будто 19 века)
+              msg.guild.members.cache.get(event.d.user_id).roles.add('797545836165988393'); //ready blyat
+          })
+        };
+      };
+    };
+  };
+});
