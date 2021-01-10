@@ -6,14 +6,27 @@ const talkedRecently = new Set();
 
 function test(r, m, args, f) {
 
-    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
-        m.delete().catch();
-    let robotmessage = args = m.content.split(' ');
-    
-    m.channel.send(f); 
-    m.channel.send(robotmessage); 
-    } else {
-        return m.delete().catch(); r.users.cache.get(m.author.id).send("У вас нет прав"); 
+    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+
+        //   mess.channel.send(args)
+        let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
+        let title = robotmessage[1]
+        robotmessage = m.content.split(title)
+
+        robotmessage.shift();
+        robotmessage = robotmessage.join(' ');
+        let embed = f
+        .setTitle(title)
+        .setColor(0x00FAFF)
+        .setDescription(robotmessage);
+        
+        mess.delete().catch(); // Удаление сообщения пользователя после отправки 
+        mess.channel.send(embed)
+        //mess.channel.send(robotmessage).then(mess.channel.send(mess.author)) /* Отправление в чат сообщения бота */
+        //mess.channel.send(attachIsImage(args))
+    } 
+    else {
+        return mess.delete().catch(); mess.channel.send("У вас нет прав"); 
     }
 }
 
@@ -156,6 +169,11 @@ var comms_list = [
     {
         name: "sayp",
         "out": sayp,
+        about: ""
+    },
+    {
+        name: "test",
+        "out": test,
         about: ""
     },
     {
