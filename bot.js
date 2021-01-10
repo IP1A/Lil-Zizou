@@ -1,146 +1,185 @@
+const config = require('./config.json'); // Подключаем файл с параметрами и информацией
 const Discord = require('discord.js'); // Подключаем библиотеку discord.js
-const robot = new Discord.Client(); // Объявляем, что robot - бот
-const comms = require("./comms.js"); // Подключаем файл с командами для бота
-const fs = require('fs'); // Подключаем родной модуль файловой системы node.js  
-let config = require('./config.json'); // Подключаем файл с параметрами и информацией
-const { stringify } = require('querystring');
-const ytdl = require("ytdl-core");
-let prefix = config.prefix; // «Вытаскиваем» из него префикс
-const em = new Discord.MessageEmbed()
-robot.on("ready", function() {
-  /* При успешном запуске, в консоли появится сообщение «[Имя бота] запустился!» */
-  console.log(robot.user.username + " запустился.");
-});
+const prefix = config.prefix; // «Вытаскиваем» префикс
+const f = new Discord.MessageEmbed()
+const talkedRecently = new Set();
 
-const queue = new Map();
+function test(r, m, args, f) {
 
-robot.once("reconnecting", () => {
-  console.log("Перезахожу.");
-});
-
-robot.once("disconnect", () => {
-  console.log("Вышел.");
-});
-
-
-robot.on('message', (msg) => { // Реагирование на сообщения
-  if (msg.author.username != robot.user.username && msg.author.discriminator != robot.user.discriminator) {
-    var comm = msg.content.trim() + " ";
-    var comm_name = comm.slice(0, comm.indexOf(" "));
-    var messArr = comm.split(" ");
-    for (comm_count in comms.comms) {
-      var comm2 = prefix + comms.comms[comm_count].name;
-      if (comm2 == comm_name) {
-        comms.comms[comm_count].out(robot, msg, messArr, em);
-      }
-    }
-  }
-  const serverQueue = queue.get(msg.guild.id);
-  if (msg.author.bot) return;
-
-  if (msg.content.startsWith(`!mplay`)) {
-    execute(msg, serverQueue);
-    return;
-  } else if (msg.content.startsWith(`!mskip`)) {
-    skip(msg, serverQueue);
-    return;
-  } else if (msg.content.startsWith(`!mstop`)) {
-    stop(msg, serverQueue);
-    return;
-  
-  }
-});
-async function execute(message, serverQueue) {
-  const args = message.content.split(" ");
-
-  const voiceChannel = message.member.voice.channel;
-  if (!voiceChannel)
-    return message.channel.send(
-      "Зайди в войс канал ёпта."
-    );
-  const permissions = voiceChannel.permissionsFor(message.client.user);
-  if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
-    return message.channel.send(
-      "А мне вообще-то права нужны, чтобы подключаться и говорить."
-    );
-  }
-
-  const songInfo = await ytdl.getInfo(args[1]);
-  const song = {
-        title: songInfo.videoDetails.title,
-        url: songInfo.videoDetails.video_url,
-   };
-
-  if (!serverQueue) {
-    const queueContruct = {
-      textChannel: message.channel,
-      voiceChannel: voiceChannel,
-      connection: null,
-      songs: [],
-      volume: 5,
-      playing: true
-    };
-
-    queue.set(message.guild.id, queueContruct);
-
-    queueContruct.songs.push(song);
-
-    try {
-      var connection = await voiceChannel.join();
-      queueContruct.connection = connection;
-      play(message.guild, queueContruct.songs[0]);
-    } catch (err) {
-      console.log(err);
-      queue.delete(message.guild.id);
-      return message.channel.send(err);
-    }
-  } else {
-    serverQueue.songs.push(song);
-    return message.channel.send(`${song.title} добавил в список песен`);
-  }
-}
-
-function skip(message, serverQueue) {
-  if (!message.member.voice.channel)
-    return message.channel.send(
-      "Зайди в канал, чтобы скипнуть"
-    );
-  if (!serverQueue)
-    return message.channel.send("А скипать-то нечего...");
-  serverQueue.connection.dispatcher.end();
-}
-
-function stop(message, serverQueue) {
-  if (!message.member.voice.channel)
-    return message.channel.send(
-      "Зайди в канал, чтобы поставить на паузу"
-    );
+    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
+        m.delete().catch();
+    let robotmessage = args = m.content.split(' ');
     
-  if (!serverQueue)
-    return message.channel.send("Останавливать нечего...");
+    m.channel.send(f); 
+    m.channel.send(robotmessage); 
+    } else {
+        return m.delete().catch(); r.users.cache.get(m.author.id).send("У вас нет прав"); 
+    }
+}
+
+function news(robot, m, args, f) {
+
+    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
+        m.delete().catch();
+   let robotmessage = args = m.content.split(' '); // Пробелы между словами 
+
+   let img = robotmessage[1]
+   robotmessage = m.content.split(img)
+
+   robotmessage.shift();
+   robotmessage = robotmessage.join(' ');
+   let embed = f
+    .setTitle('Информация')
+    .setColor(0x00FAFF)
+    .setFooter("© «World Of Mine» 2021.", 'https://images-ext-2.discordapp.net/external/v_gEPT-Cwyy8H3kflBB6EDyrO7ImN8nP5SOQGpwztvE/%3Fextra%3DypTuM1P-51ZP5iLQ1cdvn6TED_QsycKtzh-7JwYeppJg8wMlvZcwc-NoyLt7MLDN5wfJjgvOb80Z-RBZ7nbFb2UZJAs_UwBKE_L9fFGmeV2M6FmqiK8omV6LprdwZ51B_Ez1vQW-L_boc38OL7PBbRnT/https/psv4.userapi.com/c856228/u126117826/docs/d6/7cc93685383c/world_of_mine_logo.png')
+    .setImage(img)
+    .setDescription(robotmessage);
+    m.channel.send(embed); 
+    } else {
+        return m.delete().catch(); m.channel.send("У вас нет прав"); 
+    }
+}
+
+function aye(robot, m, args, f) {
+
+    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
+    m.delete().catch();
+    let robotmessage = args = m.content.split(' ')
+   // robotmessage.shift();
+   // robotmessage = robotmessage.join(' ');
+    let embed = f
+    .setTitle('АУЕ ТАТАРЫ')
+    .setColor(0x00FAFF)
+    .setDescription('СБОР')
+    m.channel.send(robotmessage[1]);
+    m.channel.send(embed);
+    } else {
+        return m.delete().catch(); m.channel.send("У вас нет прав"); 
+    }
+}
+
+function sayp(robot, mess, args, f) {
     
-  serverQueue.songs = [];
-  serverQueue.connection.dispatcher.end();
+    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+
+ //   mess.channel.send(args)
+    let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
+    robotmessage.shift();
+    robotmessage = robotmessage.join(' ');
+    let embed = f
+    .setTitle('Оповещение')
+    .setColor(0x00FAFF)
+    .setDescription(robotmessage);
+
+    mess.delete().catch(); // Удаление сообщения пользователя после отправки 
+    mess.channel.send(embed)
+    //mess.channel.send(robotmessage).then(mess.channel.send(mess.author)) /* Отправление в чат сообщения бота */
+    //mess.channel.send(attachIsImage(args))
+    } else{
+        return mess.delete().catch(); mess.channel.send("У вас нет прав"); 
+    }
 }
 
-function play(guild, song) {
-  const serverQueue = queue.get(guild.id);
-  if (!song) {
-    serverQueue.voiceChannel.leave();
-    queue.delete(guild.id);
-    return;
-  }
+function test2(robot, mess, args, f) {
 
-  const dispatcher = serverQueue.connection
-    .play(ytdl(song.url))
-    .on("finish", () => {
-      serverQueue.songs.shift();
-      play(guild, serverQueue.songs[0]);
-    })
-    .on("error", error => console.error(error));
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-  serverQueue.textChannel.send(`Начинаю проигрывать: **${song.title}**`);
+    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+
+ //   mess.channel.send(args)
+    let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
+    robotmessage.shift();
+    robotmessage = robotmessage.join(' ');
+
+    mess.delete().catch(); // Удаление сообщения пользователя после отправки 
+    mess.reply(robotmessage)
+    //mess.channel.send(robotmessage).then(mess.channel.send(mess.author)) /* Отправление в чат сообщения бота */
+    //mess.channel.send(attachIsImage(args))
+    } else {
+        return mess.delete().catch(); mess.channel.send("У вас нет прав"); 
+    }
+}
+ 
+function attachIsImage(msgAttach) {
+    var url = msgAttach.url;
+
+    //True if this url is a png image.
+    return url.indexOf("png", url.length - "png".length /*or 3*/) !== -1;
+    
+}
+function say(robot, mess, args, f) {
+    
+    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+
+ //   mess.channel.send(args)
+    let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
+    robotmessage.shift();
+    robotmessage = robotmessage.join(' ');
+
+    mess.delete().catch(); // Удаление сообщения пользователя после отправки 
+    mess.channel.send(robotmessage)
+    //mess.channel.send(robotmessage).then(mess.channel.send(mess.author)) /* Отправление в чат сообщения бота */
+    //mess.channel.send(attachIsImage(args))
+    } else{
+        return mess.delete().catch(); mess.channel.send("У вас нет прав"); 
+    }
 }
 
+function coin_rand(r, m, a, f) {
+  //if (m.author.id != '748483337969991750') {return m.delete().catch(); m.channel.send("У вас нет прав"); }
 
-robot.login(process.env.BOT_TOKEN); // Авторизация бота
+    if (talkedRecently.has(m.author.id)) {
+        let embed = f
+        .setTitle('Задержка перед отправкой.')
+        .setColor(0x00FAFF)
+        .setDescription("Подождите 5 секунд\nперед следующей отправкой.");
+        r.users.cache.get(m.author.id).send(embed);
+    }
+    else {
+
+        m.channel.send('Монета подбрасывается...')
+        var random = Math.floor(Math.random() * 2)
+        if (random === 0) {
+            m.channel.send(':eagle: Орёл!')
+        } else if (random === 1) {
+            m.channel.send(':coin: Решка!')
+        }
+        
+        talkedRecently.add(m.author.id);
+         setTimeout(() => {
+           talkedRecently.delete(m.author.id);
+         }, 5000); // 1000 - одна секунда
+     }
+}
+// Список команд //
+
+var comms_list = [
+
+    {
+        name: "sayp",
+        "out": sayp,
+        about: ""
+    },
+    {
+        name: "say",
+        out: say,
+        about: ""
+    },
+    {
+        name: "coin",
+        "out": coin_rand,
+        about: ""
+    },
+    {
+        name: "ayetatari",
+        "out": aye,
+        about: ""
+    },
+
+    {
+        name: "setnewsblyat",
+        "out": news,
+        about: ""
+    },
+
+];
+
+module.exports.comms = comms_list;
