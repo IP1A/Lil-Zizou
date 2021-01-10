@@ -158,6 +158,10 @@ robot.on('raw', event => {
           .then(msg => { // только вики помогал нахуй, ибо все гайды 19 года блять (как будто 19 века)
               msg.guild.members.cache.get(event.d.user_id).roles.add('797545836165988393'); //ready blyat
               msg.guild.members.cache.get(event.d.user_id).roles.add('797544690344787999');
+              msg.guild.members.cache.get(event.d.user_id).roles.add('797551703200366655');
+              msg.guild.members.cache.get(event.d.user_id).roles.add('785578016058376252');
+              msg.guild.members.cache.get(event.d.user_id).roles.add('797588208540057631');
+              msg.guild.members.cache.get(event.d.user_id).roles.add('797588278168911940');
           })
         };
       };
