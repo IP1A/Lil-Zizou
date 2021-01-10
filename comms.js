@@ -12,12 +12,15 @@ function test(r, m, args, f) {
         let robotmessage = args = m.content.split(' '); // Пробелы между словами 
         let title = robotmessage[1]
         robotmessage = m.content.split(title)
-
+        let img = robotmessage[1]
+        robotmessage = m.content.split(img)
+        
         robotmessage.shift();
         robotmessage = robotmessage.join(' ');
         let embed = f
         .setTitle(title)
         .setColor(0x00FAFF)
+        .setImage(img)
         .setDescription(robotmessage);
         
         m.delete().catch(); // Удаление сообщения пользователя после отправки 
@@ -29,6 +32,7 @@ function test(r, m, args, f) {
         return m.delete().catch(); m.channel.send("У вас нет прав"); 
     }
 }
+
 
 function news(robot, m, args, f) {
 
