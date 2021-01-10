@@ -1,0 +1,18 @@
+{
+  "name": "lil-ziz",
+  "version": "1.0.0",
+  "description": "toxic",
+  "main": "bot.js",
+  "scripts": {
+    "test": "start"
+  },
+  "author": ".Zizou",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/opus": "^0.3.3",
+    "discord.js": "^12.5.1",
+    "ffmpeg": "0.0.4",
+    "fluent-ffmpeg": "^2.1.2",
+    "ytdl-core": "^4.2.1"
+  }
+}
