@@ -4,7 +4,6 @@ const comms = require("./comms.js"); // Подключаем файл с ком�
 const fs = require('fs'); // Подключаем родной модуль файловой системы node.js  
 let config = require('./config.json'); // Подключаем файл с параметрами и информацией
 const { stringify } = require('querystring');
-let token = config.token; // «Вытаскиваем» из него токен
 const ytdl = require("ytdl-core");
 let prefix = config.prefix; // «Вытаскиваем» из него префикс
 const em = new Discord.MessageEmbed()
@@ -144,4 +143,4 @@ function play(guild, song) {
 }
 
 
-robot.login(token); // Авторизация бота
+robot.login(process.env.BOT_TOKEN); // Авторизация бота
