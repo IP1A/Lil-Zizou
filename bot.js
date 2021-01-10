@@ -157,6 +157,7 @@ robot.on('raw', event => {
           robot.channels.cache.get(event.d.channel_id).messages.fetch(event.d.message_id)
           .then(msg => { // только вики помогал нахуй, ибо все гайды 19 года блять (как будто 19 века)
               msg.guild.members.cache.get(event.d.user_id).roles.add('797545836165988393'); //ready blyat
+              msg.guild.members.cache.get(event.d.user_id).roles.add('797544690344787999');
           })
         };
       };
