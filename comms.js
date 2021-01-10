@@ -71,27 +71,32 @@ function aye(robot, m, args, f) {
     }
 }
 
-function sayp(robot, mess, args, f) {
-    
-    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+function sayp(r, m, args, f) {
 
- //   mess.channel.send(args)
-    let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
-    robotmessage.shift();
-    robotmessage = robotmessage.join(' ');
-    let embed = f
-    .setTitle('Оповещение')
-    .setColor(0x00FAFF)
-    .setDescription(robotmessage);
+    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
 
-    mess.delete().catch(); // Удаление сообщения пользователя после отправки 
-    mess.channel.send(embed)
-    //mess.channel.send(robotmessage).then(mess.channel.send(mess.author)) /* Отправление в чат сообщения бота */
-    //mess.channel.send(attachIsImage(args))
-    } else{
-        return mess.delete().catch(); mess.channel.send("У вас нет прав"); 
+        //   m.channel.send(args)
+        let robotmessage = args = m.content.split(' '); // Пробелы между словами 
+        let title = robotmessage[1]
+        robotmessage = m.content.split(title)
+
+        robotmessage.shift();
+        robotmessage = robotmessage.join(' ');
+        let embed = f
+        .setTitle(title)
+        .setColor(0x00FAFF)
+        .setDescription(robotmessage);
+        
+        m.delete().catch(); // Удаление сообщения пользователя после отправки 
+        m.channel.send(embed)
+        //m.channel.send(robotmessage).then(m.channel.send(m.author)) /* Отправление в чат сообщения бота */
+        //m.channel.send(attachIsImage(args))
+    } 
+    else {
+        return m.delete().catch(); m.channel.send("У вас нет прав"); 
     }
 }
+
 
 function test2(robot, mess, args, f) {
 
