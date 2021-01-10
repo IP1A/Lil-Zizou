@@ -175,11 +175,6 @@ var comms_list = [
         about: ""
     },
     {
-        name: "img",
-        "out": test,
-        about: ""
-    },
-    {
         name: "say",
         out: say,
         about: ""
