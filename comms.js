@@ -29,7 +29,7 @@ function news(robot, m, args, f) {
    robotmessage.shift();
    robotmessage = robotmessage.join(' ');
    let embed = f
-    .setTitle('Информация')
+    .setTitle('Верификация')
     .setColor(0x00FAFF)
     .setFooter("© «World Of Mine» 2021.", 'https://images-ext-2.discordapp.net/external/v_gEPT-Cwyy8H3kflBB6EDyrO7ImN8nP5SOQGpwztvE/%3Fextra%3DypTuM1P-51ZP5iLQ1cdvn6TED_QsycKtzh-7JwYeppJg8wMlvZcwc-NoyLt7MLDN5wfJjgvOb80Z-RBZ7nbFb2UZJAs_UwBKE_L9fFGmeV2M6FmqiK8omV6LprdwZ51B_Ez1vQW-L_boc38OL7PBbRnT/https/psv4.userapi.com/c856228/u126117826/docs/d6/7cc93685383c/world_of_mine_logo.png')
     .setImage(img)
