@@ -168,3 +168,11 @@ robot.on('raw', event => {
     };
   };
 });
+
+
+robot.user.setPresence({
+        game: {
+          name: `Visual Studio Code\nEditing: discord.rb`, /* если интересует, как сделать "прошло" - отпишите в комментарии */
+          type: 'LISTENING"
+        }
+      })
