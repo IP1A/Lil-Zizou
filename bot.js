@@ -168,10 +168,3 @@ robot.on('raw', event => {
     };
   };
 });
-
-robot.user.setPresence({
-  game:{
-    name:'lol'
-  },
-  status:'online'
-});
