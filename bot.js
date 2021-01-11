@@ -147,7 +147,7 @@ robot.login(token); // Авторизация бота
 
 robot.on('raw', event => {
   if (event.t === 'MESSAGE_REACTION_ADD') {
-    if (event.d.message_id === '797790152524431383')
+    if (event.d.message_id === '797761813336424448')
     {
       if (event.d.emoji.name === "✍️") {
         if (event.d.member.roles.find(r => r === '797545836165988393')) {
@@ -156,12 +156,12 @@ robot.on('raw', event => {
         else {
           robot.channels.cache.get(event.d.channel_id).messages.fetch(event.d.message_id)
           .then(msg => { // только вики помогал нахуй, ибо все гайды 19 года блять (как будто 19 века)
-              msg.guild.members.cache.get(event.d.user_id).roles.add('797545836165988393'); //ready blyat
-              msg.guild.members.cache.get(event.d.user_id).roles.add('797544690344787999');
-              msg.guild.members.cache.get(event.d.user_id).roles.add('797551703200366655');
-              msg.guild.members.cache.get(event.d.user_id).roles.add('785578016058376252');
-              msg.guild.members.cache.get(event.d.user_id).roles.add('797588208540057631');
-              msg.guild.members.cache.get(event.d.user_id).roles.add('797588278168911940');
+            msg.guild.members.cache.get(event.d.user_id).roles.add('797545836165988393'); //ready blyat
+            msg.guild.members.cache.get(event.d.user_id).roles.add('797544690344787999');
+            msg.guild.members.cache.get(event.d.user_id).roles.add('797551703200366655');
+            msg.guild.members.cache.get(event.d.user_id).roles.add('785578016058376252');
+            msg.guild.members.cache.get(event.d.user_id).roles.add('797588208540057631');
+            msg.guild.members.cache.get(event.d.user_id).roles.add('797588278168911940');
           })
         };
       };
