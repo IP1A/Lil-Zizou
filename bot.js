@@ -150,7 +150,7 @@ robot.on('raw', event => {
     if (event.d.message_id === '797761813336424448')
     {
       if (event.d.emoji.name === "✍️") {
-        if (event.d.member.roles.find(r => r === '797545836165988393')) {
+        if (event.d.member.roles.find(r => r === '797790152524431383')) {
           return;
         }
         else {
