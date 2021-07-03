@@ -4,34 +4,43 @@ const prefix = config.prefix; // «Вытаскиваем» префикс
 const f = new Discord.MessageEmbed()
 const talkedRecently = new Set();
 
-function test(r, m, args, f) {
+function test(robot, m, args, f) {
 
-    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
-        m.delete().catch();
-    let robotmessage = args = m.content.split(' ');
-    
-    m.channel.send(f); 
-    m.channel.send(robotmessage); 
-    } else {
-        return m.delete().catch(); r.users.cache.get(m.author.id).send("У вас нет прав"); 
-    }
-}
-
-function news(robot, m, args, f) {
-
-    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
+    if (m.author.id == '748483337969991750' | m.author.id == '337948830614159361') {
         m.delete().catch();
    let robotmessage = args = m.content.split(' '); // Пробелы между словами 
 
    let img = robotmessage[1]
    robotmessage = m.content.split(img)
+   
+   let embed = f
+    .setTitle('')
+    .setColor(0x00FAFF)
+    .setFooter("© «Lotus» 2021.")
+    .setImage(img)
+    m.channel.send(embed); 
+    } else {
+        return m.delete().catch(); m.channel.send("У вас нет прав"); 
+    }
+}
 
+function news(robot, m, args, f) {
+
+    if (m.author.id == '748483337969991750' | m.author.id == '337948830614159361') {
+        m.delete().catch();
+   let robotmessage = args = m.content.split(' '); // Пробелы между словами 
+
+   let img = robotmessage[1]
+   let title = robotmessage[2]
+   robotmessage = m.content.split(img)
+   robotmessage = m.content.split(title)
+   
    robotmessage.shift();
    robotmessage = robotmessage.join(' ');
    let embed = f
-    .setTitle('Информация')
+    .setTitle(title)
     .setColor(0x00FAFF)
-    .setFooter("© «World Of Mine» 2021.", 'https://images-ext-2.discordapp.net/external/v_gEPT-Cwyy8H3kflBB6EDyrO7ImN8nP5SOQGpwztvE/%3Fextra%3DypTuM1P-51ZP5iLQ1cdvn6TED_QsycKtzh-7JwYeppJg8wMlvZcwc-NoyLt7MLDN5wfJjgvOb80Z-RBZ7nbFb2UZJAs_UwBKE_L9fFGmeV2M6FmqiK8omV6LprdwZ51B_Ez1vQW-L_boc38OL7PBbRnT/https/psv4.userapi.com/c856228/u126117826/docs/d6/7cc93685383c/world_of_mine_logo.png')
+    .setFooter("© «Lotus» 2021.")
     .setImage(img)
     .setDescription(robotmessage);
     m.channel.send(embed); 
@@ -42,47 +51,52 @@ function news(robot, m, args, f) {
 
 function aye(robot, m, args, f) {
 
-    if (m.author.id == '748483337969991750' | m.author.id == '455378693540544513') {
+    if (m.author.id == '748483337969991750' | m.author.id == '337948830614159361') {
     m.delete().catch();
     let robotmessage = args = m.content.split(' ')
-   // robotmessage.shift();
-   // robotmessage = robotmessage.join(' ');
     let embed = f
     .setTitle('АУЕ ТАТАРЫ')
     .setColor(0x00FAFF)
     .setDescription('СБОР')
-    m.channel.send(robotmessage[1]);
+    .setImage('')
+    //m.channel.send(robotmessage[1]);
     m.channel.send(embed);
     } else {
         return m.delete().catch(); m.channel.send("У вас нет прав"); 
     }
 }
 
-function sayp(robot, mess, args, f) {
-    
-    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+function sayp(r, m, args, f) {
 
- //   mess.channel.send(args)
-    let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
-    robotmessage.shift();
-    robotmessage = robotmessage.join(' ');
-    let embed = f
-    .setTitle('Оповещение')
-    .setColor(0x00FAFF)
-    .setDescription(robotmessage);
+    if (m.author.id == '748483337969991750' | m.author.id == '337948830614159361') {
 
-    mess.delete().catch(); // Удаление сообщения пользователя после отправки 
-    mess.channel.send(embed)
-    //mess.channel.send(robotmessage).then(mess.channel.send(mess.author)) /* Отправление в чат сообщения бота */
-    //mess.channel.send(attachIsImage(args))
-    } else{
-        return mess.delete().catch(); mess.channel.send("У вас нет прав"); 
+        //   m.channel.send(args)
+        let robotmessage = args = m.content.split(' '); // Пробелы между словами 
+        let title = robotmessage[1]
+        robotmessage = m.content.split(title)
+
+        robotmessage.shift();
+        robotmessage = robotmessage.join(' ');
+        let embed = f
+        .setTitle(title)
+        .setColor(0x00FAFF)
+        .setFooter("© «Lotus» 2021.")
+        .setDescription(robotmessage);
+        
+        m.delete().catch(); // Удаление сообщения пользователя после отправки 
+        m.channel.send(embed)
+        //m.channel.send(robotmessage).then(m.channel.send(m.author)) /* Отправление в чат сообщения бота */
+        //m.channel.send(attachIsImage(args))
+    } 
+    else {
+        return m.delete().catch(); m.channel.send("У вас нет прав"); 
     }
 }
 
+
 function test2(robot, mess, args, f) {
 
-    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+    if (mess.author.id == '748483337969991750' | mess.author.id == '337948830614159361') {
 
  //   mess.channel.send(args)
     let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
@@ -107,7 +121,7 @@ function attachIsImage(msgAttach) {
 }
 function say(robot, mess, args, f) {
     
-    if (mess.author.id == '748483337969991750' | mess.author.id == '455378693540544513') {
+    if (mess.author.id == '748483337969991750' | mess.author.id == '337948830614159361') {
 
  //   mess.channel.send(args)
     let robotmessage = args = mess.content.split(' '); // Пробелы между словами 
@@ -152,10 +166,14 @@ function coin_rand(r, m, a, f) {
 // Список команд //
 
 var comms_list = [
-
     {
         name: "sayp",
         "out": sayp,
+        about: ""
+    },
+    {
+        name: "img",
+        "out": test,
         about: ""
     },
     {
@@ -173,7 +191,6 @@ var comms_list = [
         "out": aye,
         about: ""
     },
-
     {
         name: "setnewsblyat",
         "out": news,
