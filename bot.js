@@ -2,6 +2,7 @@ const Discord = require('discord.js'); // Подключаем библиоте�
 const robot = new Discord.Client(); // Объявляем, что robot - бот
 const comms = require("./comms.js"); // Подключаем файл с командами для бота
 const fs = require('fs'); // Подключаем родной модуль файловой системы node.js  
+let config = require('./config.json'); // Подключаем файл с параметрами и информацией
 const { stringify } = require('querystring');
 let token = config.token; // «Вытаскиваем» из него токен
 const ytdl = require("ytdl-core");
@@ -21,7 +22,6 @@ robot.once("reconnecting", () => {
 robot.once("disconnect", () => {
   console.log("Вышел.");
 });
-
 
 robot.on('message', (msg) => { // Реагирование на сообщения
   if (msg.author.username != robot.user.username && msg.author.discriminator != robot.user.discriminator) {
@@ -50,97 +50,47 @@ robot.on('message', (msg) => { // Реагирование на сообщени
   
   }
 });
-async function execute(message, serverQueue) {
-  const args = message.content.split(" ");
 
-  const voiceChannel = message.member.voice.channel;
-  if (!voiceChannel)
-    return message.channel.send(
-      "Зайди в войс канал ёпта."
-    );
-  const permissions = voiceChannel.permissionsFor(message.client.user);
-  if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
-    return message.channel.send(
-      "А мне вообще-то права нужны, чтобы подключаться и говорить."
-    );
-  }
 
-  const songInfo = await ytdl.getInfo(args[1]);
-  const song = {
-        title: songInfo.videoDetails.title,
-        url: songInfo.videoDetails.video_url,
-   };
+robot.login(token);
 
-  if (!serverQueue) {
-    const queueContruct = {
-      textChannel: message.channel,
-      voiceChannel: voiceChannel,
-      connection: null,
-      songs: [],
-      volume: 5,
-      playing: true
+robot.on('raw', event => {
+  if (event.t === 'MESSAGE_REACTION_ADD') {
+    if (event.d.message_id === '860793633215873035')
+    {
+      if (event.d.emoji.name === "📰") {
+        robot.channels.cache.get(event.d.channel_id).messages.fetch(event.d.message_id)
+        .then(msg => {
+          msg.guild.members.cache.get(event.d.user_id).roles.add('860778120856469534');
+        })
+      };
+      if (event.d.emoji.name === "🗓️") {
+        robot.channels.cache.get(event.d.channel_id).messages.fetch(event.d.message_id)
+        .then(msg => {
+          msg.guild.members.cache.get(event.d.user_id).roles.add('860781415800504341');
+        })
+      };
     };
-
-    queue.set(message.guild.id, queueContruct);
-
-    queueContruct.songs.push(song);
-
-    try {
-      var connection = await voiceChannel.join();
-      queueContruct.connection = connection;
-      play(message.guild, queueContruct.songs[0]);
-    } catch (err) {
-      console.log(err);
-      queue.delete(message.guild.id);
-      return message.channel.send(err);
-    }
-  } else {
-    serverQueue.songs.push(song);
-    return message.channel.send(`${song.title} добавил в список песен`);
+  };
+  if (event.t === 'MESSAGE_REACTION_REMOVE') {
+    if (event.d.message_id === '860793633215873035')
+    {
+      console.log(event.d.emoji.name)
+      if (event.d.emoji.name === "📰") {
+        robot.channels.cache.get(event.d.channel_id).messages.fetch(event.d.message_id)
+        .then(msg => {
+        msg.guild.members.cache.get(event.d.user_id).roles.remove('860778120856469534');
+        })
+      };
+      if (event.d.emoji.name === "🗓️") {
+        robot.channels.cache.get(event.d.channel_id).messages.fetch(event.d.message_id)
+        .then(msg => {
+        msg.guild.members.cache.get(event.d.user_id).roles.remove('860781415800504341');
+        })
+      };
+    };
   }
-}
-
-function skip(message, serverQueue) {
-  if (!message.member.voice.channel)
-    return message.channel.send(
-      "Зайди в канал, чтобы скипнуть"
-    );
-  if (!serverQueue)
-    return message.channel.send("А скипать-то нечего...");
-  serverQueue.connection.dispatcher.end();
-}
-
-function stop(message, serverQueue) {
-  if (!message.member.voice.channel)
-    return message.channel.send(
-      "Зайди в канал, чтобы поставить на паузу"
-    );
-    
-  if (!serverQueue)
-    return message.channel.send("Останавливать нечего...");
-    
-  serverQueue.songs = [];
-  serverQueue.connection.dispatcher.end();
-}
-
-function play(guild, song) {
-  const serverQueue = queue.get(guild.id);
-  if (!song) {
-    serverQueue.voiceChannel.leave();
-    queue.delete(guild.id);
-    return;
-  }
-
-  const dispatcher = serverQueue.connection
-    .play(ytdl(song.url))
-    .on("finish", () => {
-      serverQueue.songs.shift();
-      play(guild, serverQueue.songs[0]);
-    })
-    .on("error", error => console.error(error));
-  dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
-  serverQueue.textChannel.send(`Начинаю проигрывать: **${song.title}**`);
-}
-
-
-robot.login(process.env.BOT_TOKEN); // Авторизация бота
+});
+robot.on("guildMemberAdd", (member) => {
+//  member.roles.add("798560953754320986")
+});
