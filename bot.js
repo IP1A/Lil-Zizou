@@ -52,7 +52,7 @@ robot.on('message', (msg) => { // Реагирование на сообщени
 });
 
 
-robot.login(token);
+robot.login(process.env.BOT_TOKEN);
 
 robot.on('raw', event => {
   if (event.t === 'MESSAGE_REACTION_ADD') {
