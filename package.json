@@ -1,7 +1,7 @@
 {
-  "name": "lil-ziz",
+  "name": "Lotus-B",
   "version": "1.0.0",
-  "description": "toxic",
+  "description": "Маленький .Zizou пытается разработать себе бота для удобств.",
   "main": "bot.js",
   "scripts": {
     "test": "start"
